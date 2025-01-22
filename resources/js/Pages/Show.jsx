@@ -28,9 +28,10 @@ export default function Show({producto}) {
                         <span className="text-sm text-gray-500">Cantidad: {producto.cantidad}</span>
                     </div>
                     <div className="flex items-center justify-between mb-4">
-                        <Link className="primary-btn" href="/">Regresar al listado</Link>
+                        <Link className="primary-btn mx-1" href="/">Regresar</Link>
+                        <Link className="warning-btn mx-1" href={route('productos.edit', producto)}>Actualizar</Link>
                         <form onSubmit={submit}>
-                            <button className="danger-btn mx-4">Borrar</button>
+                            <button className="danger-btn mx-1">Borrar</button>
                         </form>
                     </div>
                 </div>

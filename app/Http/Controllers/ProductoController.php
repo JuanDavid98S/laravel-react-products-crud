@@ -34,7 +34,10 @@ class ProductoController extends Controller
     {
         Producto::create($request->all());
 
-        return redirect('/');
+        return redirect('/')->with(
+            'mensaje', 
+            'Producto creado de forma exitosa'
+        );
     }
 
     /**
@@ -50,7 +53,7 @@ class ProductoController extends Controller
      */
     public function edit(Producto $producto)
     {
-        //
+        return inertia('Edit', ['producto' => $producto]);
     }
 
     /**
@@ -58,7 +61,12 @@ class ProductoController extends Controller
      */
     public function update(UpdateProductoRequest $request, Producto $producto)
     {
-        //
+        $producto->update($request->all());
+
+        return redirect('/')->with(
+            'mensaje', 
+            'Producto actualizado de forma exitosa'
+        );
     }
 
     /**
@@ -70,6 +78,7 @@ class ProductoController extends Controller
 
         return redirect("/")->with(
             'mensaje', 
-            'Producto eliminado de forma exitosa');
+            'Producto eliminado de forma exitosa'
+        );
     }
 }

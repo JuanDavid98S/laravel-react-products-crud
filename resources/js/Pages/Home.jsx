@@ -1,9 +1,10 @@
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { useRoute } from "../../../vendor/tightenco/ziggy"
 import { useState } from "react";
 
 export default function Home({productos}) {
     const route = useRoute();
+    const { delete: destroy } = useForm();
     const {component} = usePage();
     const { flash } = usePage().props;
 
@@ -11,7 +12,17 @@ export default function Home({productos}) {
     const [flashMsg, setFlashMsg] = useState(flash.mensaje);
     setTimeout(() => {
         setFlashMsg(null);
-    }, 1500);
+    }, 2000);
+
+    function submit(e, id) {
+        e.preventDefault();
+        destroy(route("productos.destroy", id));
+        setFlashMsg('Producto eliminado de forma exitosa');
+
+        setTimeout(() => {
+            setFlashMsg(null);
+        }, 3000);
+    }
 
     return (
         <>
@@ -40,11 +51,22 @@ export default function Home({productos}) {
                             <td>COP {producto.precio}</td>
                             <td>{producto.cantidad}</td>
                             <td>
-                                <Link 
-                                    className="primary-btn"
-                                    href={route('productos.show', producto.id)}
-                                >Ver
-                                </Link>
+                                <div className="flex items-center justify-between">
+                                    <Link 
+                                        className="primary-btn mx-1"
+                                        href={route('productos.show', producto.id)}
+                                    >Ver
+                                    </Link>
+                                    <Link
+                                        className="warning-btn mx-1"
+                                        href={route('productos.edit', producto)}
+                                    >
+                                        Actualizar
+                                    </Link>
+                                    <form onSubmit={(e) => submit(e, producto.id)}>
+                                        <button className="danger-btn mx-1">Borrar</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     ))}
