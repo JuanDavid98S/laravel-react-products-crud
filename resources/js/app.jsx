@@ -6,6 +6,7 @@ import { createRoot } from 'react-dom/client'
 import Layout from '@/Layouts/Layout';
 
 createInertiaApp({
+  title: (title) => title ? `${title} - Productos` : 'Productos',
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true })
     //No se tiene que llamar a la ruta completa al usar el estatico de Inertia::render gracias a esta configuracion

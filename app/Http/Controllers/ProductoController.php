@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductoRequest;
 use App\Http\Requests\UpdateProductoRequest;
 use App\Models\Producto;
+use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
@@ -13,7 +14,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::latest()->get();
+        $productos = Producto::latest()->paginate(6);
 
         return inertia('Home', ['productos' => $productos]);
     }
@@ -23,7 +24,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Create');
     }
 
     /**
@@ -31,7 +32,9 @@ class ProductoController extends Controller
      */
     public function store(StoreProductoRequest $request)
     {
-        //
+        Producto::create($request->all());
+
+        return redirect('/');
     }
 
     /**
@@ -39,7 +42,7 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        //
+        return inertia('Show', ['producto' => $producto]);
     }
 
     /**
@@ -63,6 +66,10 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        $producto->delete();
+
+        return redirect("/")->with(
+            'mensaje', 
+            'Producto eliminado de forma exitosa');
     }
 }

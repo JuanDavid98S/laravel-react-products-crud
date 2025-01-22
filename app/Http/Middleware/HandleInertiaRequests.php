@@ -36,7 +36,10 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            //
+            //Creacion de propiedades globales para los componentes, mensajes de session
+            'flash' => [
+                'mensaje' => fn () => $request->session()->get('mensaje')
+            ]
         ]);
     }
 }
